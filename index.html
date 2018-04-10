@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cozy</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="node_modules/prosemirror-view/style/prosemirror.css">
+    <link rel="stylesheet" href="node_modules/prosemirror-menu/style/menu.css">
+    <link rel="stylesheet" href="src/editor.css">
+  </head>
+  <body>
+    <header></header>
+
+    <div class="wrapper">
+      <div class="editor-wrap">
+        <div class="editor" id="editor"></div>
+      </div>
+    </div>
+    <div id=content style="display: none">
+      <h1>Example content</h1>
+      <p>Here's a paragraph with some <strong>bold</strong> content in it and a <a href="http://prosemirror.net">link</a>.</p>
+      <p>Here's a <span class="cozy-external-item" data-cozy-external-id="5" data-cozy-external-type="todo"></span>.</p>
+    </div>
+    <script src="demo_bundle.js"></script>
+  </body>
+</html>

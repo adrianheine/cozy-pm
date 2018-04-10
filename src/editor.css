@@ -1,0 +1,8 @@
+.cozy-external-item {
+  cursor: pointer;
+  border: 1px solid lightpink;
+  padding: 0.1em 0.2em;
+  border-radius: 0.3em;
+  background-color: #ffe9ec;
+  margin: 0.1em;
+}
