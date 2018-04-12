@@ -5,7 +5,6 @@ import {keymap as makeKeymap} from "prosemirror-keymap"
 import {keymap} from "./keymap.js"
 
 import {schema} from "./schema"
-import {Tooltip} from "./tooltip"
 
 class ExternalItemView {
   constructor(node, externalEntityTypes) {
@@ -44,17 +43,11 @@ export class Editor {
       for (let dom = event.target; dom != this.view.dom; dom = dom.parentNode)
         if (dom.nodeName == "A" && dom.href) return event.preventDefault()
     })
-    this.tooltip = new Tooltip(this.view, {
-      dispatch: this.dispatch,
-      getState: () => this.state,
-      focus: () => this.view.focus(),
-    })
   }
 
   setState(state) {
     this.state = state
     this.view.updateState(state)
-    this.tooltip.update(state)
   }
 
   dispatch(tr) {
