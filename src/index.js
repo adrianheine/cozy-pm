@@ -1,6 +1,7 @@
 import {EditorView} from "prosemirror-view"
 import {EditorState, TextSelection} from "prosemirror-state"
 import {exampleSetup} from "prosemirror-example-setup"
+import {suggestionsPlugin, triggerCharacter} from "@quartzy/prosemirror-suggestions"
 import {keymap as makeKeymap} from "prosemirror-keymap"
 import {keymap} from "./keymap.js"
 
@@ -29,6 +30,12 @@ export class Editor {
     this.wrapper = place.appendChild(document.createElement("div"))
     this.wrapper.style.position = "relative"
     trackFocus(this.wrapper, "Editor-focused")
+    this.tags = Object.keys(options.externalEntityTypes).reduce((tags, type) => {
+      const def = options.externalEntityTypes[type]
+      def.tags.forEach(tag => tags[tag] = type)
+      return tags
+    }, Object.create(null))
+    this.externalEntityTypes = options.externalEntityTypes
     this.view = new EditorView(this.wrapper, {
       state: this.state,
       dispatchTransaction: this.dispatch,
@@ -57,7 +64,21 @@ export class Editor {
 
   createState(doc) {
     return EditorState.create({doc, schema, plugins: exampleSetup({schema}).concat([
-      makeKeymap(keymap)
+      makeKeymap(keymap),
+      suggestionsPlugin({
+        debug: true,
+        matcher: triggerCharacter("@", { allowSpaces: false }),
+        onExit: ({text, range}) => {
+          const type = this.tags[text.substr(1)]
+          if (!type) return
+
+          // FIXME There is a race condition here
+          this.externalEntityTypes[type].create().then(id => {
+            const node = schema.nodes.external_item.create({type, id})
+            this.dispatch(this.state.tr.replaceRangeWith(range.from, range.to, node))
+          })
+        }
+      })
     ])})
   }
 

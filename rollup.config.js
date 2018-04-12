@@ -1,4 +1,6 @@
 import buble from "rollup-plugin-buble"
+import json from 'rollup-plugin-json'
+import builtins from 'rollup-plugin-node-builtins';
 import nodeResolve from "rollup-plugin-node-resolve"
 import commonJS from "rollup-plugin-commonjs"
 
@@ -19,7 +21,9 @@ export default [{
     commonJS({
       include: 'node_modules/**',
       sourceMap: false
-    })
+    }),
+    json(),
+    builtins()
   ]
 },{
   input: "test/test.js",

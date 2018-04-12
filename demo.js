@@ -22,12 +22,13 @@ const watchTodo = (id, render) => {
   // return unwatch function
   return () => { stop = true }
 }
+let lastId = 1
 
 window.editor = new Editor(document.querySelector("#editor"), {
   externalEntityTypes: {
     todo: {
       tags: [ "todo", "task" ],
-      create: () => Promise.resolve("newTodoId"),
+      create: () => Promise.resolve(++lastId),
       register: ({id}, render) => watchTodo(id, todoText => {
         const span = document.createElement("span")
         span.textContent = todoText
