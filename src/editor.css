@@ -6,3 +6,9 @@
   background-color: #ffe9ec;
   margin: 0.1em;
 }
+
+.cozy-external-item.only-child {
+  padding: 0.4em;
+  border-width: 3px;
+  border-radius: 0;
+}

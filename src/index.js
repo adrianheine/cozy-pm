@@ -26,7 +26,11 @@ export class Editor {
     this.view = new EditorView(this.wrapper, {
       state: this.state,
       dispatchTransaction: this.dispatch,
-      nodeViews: { external_item(node) { return new ExternalItemView(node, options.externalEntityTypes) } },
+      nodeViews: { external_item: (node, view, getPos) => new ExternalItemView(
+        node,
+        options.externalEntityTypes,
+        view.state.doc.resolve(getPos())
+      ) },
       handleClick(view, pos) {
         if (pos == view.state.doc.content.size && !view.state.doc.lastChild.isTextblock)
           insertParagraphAtEnd(view.state, view.dispatch)
